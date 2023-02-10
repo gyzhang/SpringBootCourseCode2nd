@@ -4,6 +4,21 @@ import TheWelcome from './components/TheWelcome.vue'
 import User from './views/User.vue'
 </script>
 
+<script>
+export default {
+  methods: {
+    show(index) {
+      if(index == 'foo') {
+        this.$router.push('/foo')
+      }
+      if(index == 'bar') {
+        this.$router.push('/bar')
+      }
+    }
+  }
+}
+</script>
+
 <template>
   <header>
     <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
@@ -17,6 +32,11 @@ import User from './views/User.vue'
   </header>
 
   <main>
+    <div>
+      <button @click="show('foo')">Foo Page</button>
+      <button @click="show('bar')">Bar Page</button>
+    </div>
+    <router-view></router-view>
     <TheWelcome />
   </main>
 </template>
