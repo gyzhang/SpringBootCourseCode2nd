@@ -1,0 +1,11 @@
+DROP TABLE IF EXISTS `user`;
+CREATE TABLE `user` (
+  `id` int(32) NOT NULL AUTO_INCREMENT,
+  `userName` varchar(32) NOT NULL,
+  `passWord` varchar(50) NOT NULL,
+  `realName` varchar(32) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+INSERT INTO `user` (`id`, `userName`, `passWord`, `realName`) VALUES (1, 'Kevin', '123456', '长得帅');
+INSERT INTO `user` (`id`, `userName`, `passWord`, `realName`) VALUES (2, 'Roy', '123456', '学的好');
+INSERT INTO `user` (`id`, `userName`, `passWord`, `realName`) VALUES (3, 'Lily', '123456', '很漂亮');
