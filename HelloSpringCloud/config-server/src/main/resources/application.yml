@@ -1,0 +1,20 @@
+server:
+  port: 9090
+spring:
+  application:
+    name: service-config-server
+  cloud:
+    config:
+      server:
+        native:
+          search-locations: classpath:/shared
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        service-name: ${spring.application.name}
+        health-check-url: http://localhost:${server.port}
+        heartbeat:
+          enabled: true
+  profiles:
+    active: native

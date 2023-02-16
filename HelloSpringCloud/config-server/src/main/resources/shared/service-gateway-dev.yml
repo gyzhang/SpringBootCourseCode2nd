@@ -1,0 +1,28 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: service-gateway
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        service-name: ${spring.application.name}
+        health-check-url: http://localhost:${server.port}
+        heartbeat:
+          enabled: true
+    gateway:
+      routes:
+        - id: member_route
+          uri: http://localhost:7091
+          predicates:
+            - Path=/member/**
+        - id: product_route
+          uri: http://localhost:7092
+          predicates:
+            - Path=/product/**
+        - id: order_route
+          uri: http://localhost:7093
+          predicates:
+            - Path=/order/**

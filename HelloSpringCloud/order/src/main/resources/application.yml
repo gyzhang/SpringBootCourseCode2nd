@@ -1,0 +1,31 @@
+server:
+  port: 7093
+spring:
+  application:
+    name: service-order
+  main:
+    allow-bean-definition-overriding: true
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        service-name: ${spring.application.name}
+        health-check-url: http://localhost:${server.port}
+        heartbeat:
+          enabled: true
+  redis:
+    database: 0
+    host: localhost
+    port: 6379
+    password:
+  profiles:
+    active: dev
+rocketmq:
+  name-server: localhost:9876
+  producer:
+    group: my-group
+    send-message-timeout: 300000
+feign:
+  hystrix:
+    enabled: true

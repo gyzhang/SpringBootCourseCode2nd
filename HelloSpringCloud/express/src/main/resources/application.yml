@@ -1,0 +1,10 @@
+server:
+  port: 9527
+spring:
+  application:
+    name: express
+rocketmq:
+  name-server: localhost:9876
+  producer:
+    group: my-group
+    send-message-timeout: 300000
