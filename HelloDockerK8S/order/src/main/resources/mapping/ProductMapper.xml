@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.order.mapper.ProductMapper">
+
+    <resultMap id="BaseResultMap" type="com.example.order.entity.Product">
+            <id property="id" column="id" jdbcType="VARCHAR"/>
+            <result property="productCode" column="product_code" jdbcType="VARCHAR"/>
+            <result property="productName" column="product_name" jdbcType="VARCHAR"/>
+            <result property="productRemark" column="product_remark" jdbcType="VARCHAR"/>
+            <result property="productAmount" column="product_amount" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,product_code,product_name,
+        product_remark,product_amount
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from product
+        where  id = #{id,jdbcType=VARCHAR} 
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete from product
+        where  id = #{id,jdbcType=VARCHAR} 
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.example.order.entity.Product" useGeneratedKeys="false">
+        insert into product
+        ( id,product_code,product_name
+        ,product_remark,product_amount)
+        values (#{id,jdbcType=VARCHAR},#{productCode,jdbcType=VARCHAR},#{productName,jdbcType=VARCHAR}
+        ,#{productRemark,jdbcType=VARCHAR},#{productAmount,jdbcType=INTEGER})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.example.order.entity.Product" useGeneratedKeys="false">
+        insert into product
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="id != null">id,</if>
+                <if test="productCode != null">product_code,</if>
+                <if test="productName != null">product_name,</if>
+                <if test="productRemark != null">product_remark,</if>
+                <if test="productAmount != null">product_amount,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="id != null">#{id,jdbcType=VARCHAR},</if>
+                <if test="productCode != null">#{productCode,jdbcType=VARCHAR},</if>
+                <if test="productName != null">#{productName,jdbcType=VARCHAR},</if>
+                <if test="productRemark != null">#{productRemark,jdbcType=VARCHAR},</if>
+                <if test="productAmount != null">#{productAmount,jdbcType=INTEGER},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.example.order.entity.Product">
+        update product
+        <set>
+                <if test="productCode != null">
+                    product_code = #{productCode,jdbcType=VARCHAR},
+                </if>
+                <if test="productName != null">
+                    product_name = #{productName,jdbcType=VARCHAR},
+                </if>
+                <if test="productRemark != null">
+                    product_remark = #{productRemark,jdbcType=VARCHAR},
+                </if>
+                <if test="productAmount != null">
+                    product_amount = #{productAmount,jdbcType=INTEGER},
+                </if>
+        </set>
+        where   id = #{id,jdbcType=VARCHAR} 
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.example.order.entity.Product">
+        update product
+        set 
+            product_code =  #{productCode,jdbcType=VARCHAR},
+            product_name =  #{productName,jdbcType=VARCHAR},
+            product_remark =  #{productRemark,jdbcType=VARCHAR},
+            product_amount =  #{productAmount,jdbcType=INTEGER}
+        where   id = #{id,jdbcType=VARCHAR} 
+    </update>
+</mapper>

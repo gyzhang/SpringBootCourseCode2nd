@@ -1,0 +1,53 @@
+version: "3"
+services:
+  redis:
+    image: redis
+    container_name: test-redis
+    volumes:
+      - "./docker/redis-data:/data"
+
+  mysql:
+    image: mysql
+    container_name: test-mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
+    volumes:
+      - "./docker/mysql-data:/var/lib/mysql"
+      - "./sql/ddl.sql:/docker-entrypoint-initdb.d/1.sql:ro"
+      - "./sql/init.sql:/docker-entrypoint-initdb.d/2.sql:ro"
+    healthcheck:
+      interval: 20s
+      test: mysql -h 127.0.0.1 -u root --password=123456 -e "SELECT id FROM hellodockerk8s.member ORDER BY id LIMIT 1;"
+
+  rabbitmq:
+    image: rabbitmq
+    container_name: test-rabbitmq
+    hostname: my-rabbit
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+
+  hello-docker-order:
+    image: xprogrammer/hello-docker-order
+    container_name: test-order
+    depends_on:
+      redis:
+        condition: service_started
+      mysql:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_started
+  hello-docker-express:
+    image: xprogrammer/hello-docker-express
+    container_name: test-express
+    depends_on:
+      rabbitmq:
+        condition: service_started
+  hello-docker-console:
+    image: xprogrammer/hello-docker-console
+    container_name: test-console
+    ports:
+      - "80:80"
+    depends_on:
+      hello-docker-order:
+        condition: service_started
