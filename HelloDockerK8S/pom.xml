@@ -9,6 +9,7 @@
     <name>HelloDockerK8S</name>
     <description>HelloDockerK8S</description>
     <modules>
-
+        <module>order</module>
+        <module>express</module>
     </modules>
 </project>
