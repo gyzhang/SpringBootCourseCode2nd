@@ -18,6 +18,8 @@ import java.util.Map;
 public class Gitbook2SingleFile
 {
     public static void main( String[] args ) throws IOException {
+        int mdFileCount = 0;
+        int imgFileCount = 0;
         String gitbookPath = "C:\\Users\\Kevin Zhang\\MyBooks\\SpringBootCourse2nd";
         String summaryName = "SUMMARY.md";
         String summaryFileName = gitbookPath + System.getProperty("file.separator") + summaryName;
@@ -33,15 +35,17 @@ public class Gitbook2SingleFile
         List<GitbookSummaryBean> list = GitbookSummaryUtil.readLines(new File(summaryFileName));
         for (GitbookSummaryBean bean: list) {
             String mdFilePath = gitbookPath + System.getProperty("file.separator") + bean.getMarkdownFile();
+            mdFileCount++;
 
             List<String> lines = MarkdownFileUtil.readLines(new File(mdFilePath));//页面内容
             Map<Integer, MarkdownImageBean> imgs = MarkdownFileUtil.readImageLines(lines);// 获取MD源文件中的图片标记
-            System.out.println(lines.size()+"行，"+imgs.size()+"个图片");
+            System.out.println(bean.getMarkdownFile()+"，"+lines.size()+"行，"+imgs.size()+"个图片");
             //拷贝gitbook中的图片
             for (MarkdownImageBean img : imgs.values()) {
                 String imgFileFrom = mdFilePath.substring(0, mdFilePath.indexOf('/')) + System.getProperty("file.separator") + img.getUrl();
                 String imgFileTo = gitbookSigleFilePath + System.getProperty("file.separator") + img.getUrl();
                 Files.copy(new File(imgFileFrom).toPath(), new File(imgFileTo).toPath(), StandardCopyOption.REPLACE_EXISTING);
+                imgFileCount++;
             }
             //添加每个md文件中的行
             for (String line: lines) {
@@ -51,6 +55,6 @@ public class Gitbook2SingleFile
         }
 
         gitbook.close();
-        System.out.println("GitBook 转换单一文件已完成：" + gitbookSigleFile);
+        System.out.println("GitBook[MD文件"+mdFileCount+"个，图片"+imgFileCount+"个]转换单一文件已完成：" + gitbookSigleFile);
     }
 }
