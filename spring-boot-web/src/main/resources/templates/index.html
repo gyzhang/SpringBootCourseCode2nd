@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>文件上传示例，使用Thymeleaf</title>
+</head>
+<body>
+<h1>请填写用户名，并选择文件上传</h1>
+<hr>
+<form enctype="multipart/form-data" method="post" th:action="@{/upload}">
+  <p>输入你的用户名: <input type="text" name="name"></p>
+  <p>选择上传的文件: <input type="file" name="file"></p>
+  <input type="submit" value="点我上传">
+</form>
+</body>
+</html>

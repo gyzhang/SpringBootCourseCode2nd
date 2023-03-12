@@ -1,0 +1,7 @@
+server:
+  port: 8088
+  jakarta-servlet:
+spring:
+  servlet:
+    multipart:
+      max-file-size: 10MB
