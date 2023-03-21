@@ -36,16 +36,16 @@ public class Gitbook2SingleFile {
 
         List<GitbookSummaryBean> list = GitbookSummaryUtil.readLines(new File(summaryFileName));
         for (GitbookSummaryBean bean : list) {
-            String mdFilePath = gitbookPath + System.getProperty("file.separator") + bean.getMarkdownFile();
+            String mdFileAbsolutePath = gitbookPath + System.getProperty("file.separator") + bean.getMarkdownFile();
             mdFileCount++;
 
-            List<String> lines = MarkdownFileUtil.readLines(new File(mdFilePath));//页面内容
+            List<String> lines = MarkdownFileUtil.readLines(new File(mdFileAbsolutePath));//获取MD文件的内容
             Map<Integer, MarkdownImageBean> imgs = MarkdownFileUtil.readImageLines(lines);// 获取MD源文件中的图片标记
             System.out.println(bean.getMarkdownFile() + "，" + lines.size() + "行，" + imgs.size() + "个图片");
             //拷贝gitbook中的图片
             for (MarkdownImageBean img : imgs.values()) {
                 String imgFileFrom =
-                    mdFilePath.substring(0, mdFilePath.indexOf('/')) + System.getProperty("file.separator")
+                    mdFileAbsolutePath.substring(0, mdFileAbsolutePath.indexOf('/')) + System.getProperty("file.separator")
                         + img.getUrl();
                 String imgFileTo = gitbookSigleFilePath + System.getProperty("file.separator") + img.getUrl();
                 Files.copy(new File(imgFileFrom).toPath(), new File(imgFileTo).toPath(),
