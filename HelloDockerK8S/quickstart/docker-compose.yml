@@ -47,7 +47,7 @@ services:
     image: xprogrammer/hello-docker-console
     container_name: test-console
     ports:
-      - "80:80"
+      - "30080:30080"
     depends_on:
       hello-docker-order:
         condition: service_started

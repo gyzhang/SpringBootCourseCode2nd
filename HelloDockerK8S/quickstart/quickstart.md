@@ -22,7 +22,7 @@ PS C:\...\quickstart> docker compose up -d
 
 ## 访问前端应用
 
-打开 Chrome 访问 [http://localhost/](http://localhost/)，点击提交按钮，观察返回数据。
+打开 Chrome 访问 [http://localhost:30080/](http://localhost:30080/)，点击提交按钮，观察返回数据。
 
 ## 检查数据库数据
 

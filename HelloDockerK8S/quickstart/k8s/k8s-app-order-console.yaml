@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-docker-console
+  labels:
+    app: hello-docker-console
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hello-docker-console
+  template:
+    metadata:
+      labels:
+        app: hello-docker-console
+    spec:
+      containers:
+        - name: hello-docker-console
+          image: xprogrammer/hello-docker-console
+          ports:
+            - containerPort: 30080
+          readinessProbe:
+            tcpSocket:
+              port: 30080
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 30080
+            initialDelaySeconds: 30
+            periodSeconds: 30
+          env:
+            - name: ORDER_SERVICE_URL
+              value: http://hello-docker-order
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hello-docker-console
+  labels:
+    app: hello-docker-console
+spec:
+  selector:
+    app: hello-docker-console
+  ports:
+    - protocol: TCP
+      port: 30080
+      targetPort: 30080
+      nodePort: 30080
+  type: NodePort
