@@ -2,11 +2,13 @@
 
 ## 先决条件
 
-本示例依托 Docker Desktop 在 Windows 10 上构建并测试通过，原则上在 Linux/MacOS 上应该也能使用。
+本示例依托 Docker Desktop 4.17.0 (99724)  在 Windows 10 上构建并测试通过，原则上在 Linux/MacOS 上应该也能使用。
+
+提供的 K8S 部署脚本在 Docker Desktop 中启用的 Kubernetes v1.25.4 上测试通过。
 
 ## 运行 Docker Compose
 
-在 `quickstart` 目录下 运行 Docker Compose：
+在 `quickstart` 目录下运行 Docker Compose：
 
 ```powershell
 PS C:\...\quickstart> docker compose up -d
@@ -44,3 +46,18 @@ select * from hellodockerk8s.order_info;
 ## 检查 Redis 数据
 
 在 Docker Desktop 中，访问 test-redis 容器的终端，使用 redis-cli 登录命令行，输入命令 `get product_count` 检查 Redis 中的数据值。
+
+## 部署到 K8S
+
+在 `quickstart` 目录下运行如下命令，部署依赖环境本示例的应用：
+
+```powershell
+kubectl create -f .\k8s\k8s-rabbitmq.yaml
+kubectl create -f .\k8s\k8s-redis.yaml
+kubectl create -f .\k8s\k8s-mysql.yaml
+kubectl create -f .\k8s\k8s-app-order-service.yaml
+kubectl create -f .\k8s\k8s-app-order-console.yaml
+kubectl create -f .\k8s\k8s-app-express.yaml
+```
+
+打开 Chrome 访问 [http://localhost:30080/](http://localhost:30080/)，点击提交按钮，观察返回数据。
