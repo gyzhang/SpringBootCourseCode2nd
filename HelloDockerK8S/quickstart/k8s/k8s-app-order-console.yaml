@@ -14,6 +14,14 @@ spec:
       labels:
         app: hello-docker-console
     spec:
+      hostname: hello-docker-console
+      dnsConfig:
+        options:
+          - name: ndots
+            value: "2"
+        searches:
+          - hello-docker-console.default.svc.cluster.local
+          - default.svc.cluster.local
       containers:
         - name: hello-docker-console
           image: xprogrammer/hello-docker-console
@@ -33,6 +41,10 @@ spec:
           env:
             - name: ORDER_SERVICE_URL
               value: http://hello-docker-order
+      initContainers:
+        - name: wait-for-hello-docker-order
+          image: busybox
+          command: ['sh', '-c', 'until nslookup hello-docker-order.default.svc.cluster.local; do echo waiting for hello-docker-order; sleep 2; done;']
 ---
 apiVersion: v1
 kind: Service

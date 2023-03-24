@@ -1,0 +1,13 @@
+kubectl delete -n default deployment hello-docker-express
+kubectl delete -n default deployment hello-docker-console
+kubectl delete -n default deployment hello-docker-order
+kubectl delete -n default deployment mysql
+kubectl delete -n default deployment redis
+kubectl delete -n default deployment rabbitmq
+kubectl delete -n default service hello-docker-express
+kubectl delete -n default service hello-docker-console
+kubectl delete -n default service hello-docker-order
+kubectl delete -n default service mysql
+kubectl delete -n default service redis
+kubectl delete -n default service rabbitmq
+kubectl delete -n default configmap mysql-init-sql

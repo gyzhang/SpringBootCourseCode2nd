@@ -1,0 +1,1 @@
+docker-compose -p docker-compose-quickstart down

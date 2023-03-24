@@ -1,5 +1,13 @@
 version: "3"
 services:
+  rabbitmq:
+    image: rabbitmq
+    container_name: test-rabbitmq
+    hostname: my-rabbit
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+
   redis:
     image: redis
     container_name: test-redis
@@ -19,14 +27,6 @@ services:
       interval: 20s
       test: mysql -h 127.0.0.1 -u root --password=123456 -e "SELECT id FROM hellodockerk8s.member ORDER BY id LIMIT 1;"
 
-  rabbitmq:
-    image: rabbitmq
-    container_name: test-rabbitmq
-    hostname: my-rabbit
-    environment:
-      - RABBITMQ_DEFAULT_USER=guest
-      - RABBITMQ_DEFAULT_PASS=guest
-
   hello-docker-order:
     image: xprogrammer/hello-docker-order
     container_name: test-order
@@ -37,12 +37,6 @@ services:
         condition: service_healthy
       rabbitmq:
         condition: service_started
-  hello-docker-express:
-    image: xprogrammer/hello-docker-express
-    container_name: test-express
-    depends_on:
-      rabbitmq:
-        condition: service_started
   hello-docker-console:
     image: xprogrammer/hello-docker-console
     container_name: test-console
@@ -50,4 +44,10 @@ services:
       - "30080:30080"
     depends_on:
       hello-docker-order:
+        condition: service_started
+  hello-docker-express:
+    image: xprogrammer/hello-docker-express
+    container_name: test-express
+    depends_on:
+      rabbitmq:
         condition: service_started

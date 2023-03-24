@@ -81,6 +81,14 @@ spec:
       labels:
         app: mysql
     spec:
+      hostname: mysql
+      dnsConfig:
+        options:
+          - name: ndots
+            value: "2"
+        searches:
+          - mysql.default.svc.cluster.local
+          - default.svc.cluster.local
       containers:
         - name: mysql
           image: mysql
@@ -139,3 +147,4 @@ spec:
     - protocol: TCP
       port: 3306
       targetPort: 3306
+  type: ClusterIP
