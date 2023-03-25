@@ -1,3 +1,4 @@
+kubectl create namespace sbc2nd
 kubectl create -f ./k8s/k8s-rabbitmq.yaml
 kubectl create -f ./k8s/k8s-redis.yaml
 kubectl create -f ./k8s/k8s-mysql.yaml

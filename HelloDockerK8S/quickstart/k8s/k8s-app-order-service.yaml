@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: hello-docker-order
+  namespace: sbc2nd
   labels:
     app: hello-docker-order
 spec:
@@ -20,18 +21,18 @@ spec:
           - name: ndots
             value: "2"
         searches:
-          - hello-docker-order.default.svc.cluster.local
-          - default.svc.cluster.local
+          - hello-docker-order.sbc2nd.svc.cluster.local
+          - sbc2nd.svc.cluster.local
       containers:
         - name: hello-docker-order
           image: xprogrammer/hello-docker-order
           env:
+            - name: RABBITMQ_HOST
+              value: rabbitmq
             - name: REDIS_HOST
               value: redis
             - name: MYSQL_HOST
               value: mysql
-            - name: RABBITMQ_HOST
-              value: rabbitmq
           ports:
             - containerPort: 8080
           readinessProbe:
@@ -48,18 +49,19 @@ spec:
       initContainers:
         - name: wait-for-rabbitmq
           image: busybox
-          command: ['sh', '-c', 'until nslookup rabbitmq.default.svc.cluster.local; do echo waiting for rabbitmq; sleep 2; done;']
+          command: ['sh', '-c', 'until nslookup rabbitmq.sbc2nd.svc.cluster.local; do echo waiting for rabbitmq; sleep 2; done;']
         - name: wait-for-redis
           image: busybox
-          command: ['sh', '-c', 'until nslookup redis.default.svc.cluster.local; do echo waiting for redis; sleep 2; done;']
+          command: ['sh', '-c', 'until nslookup redis.sbc2nd.svc.cluster.local; do echo waiting for redis; sleep 2; done;']
         - name: wait-for-mysql
           image: busybox
-          command: ['sh', '-c', 'until nslookup mysql.default.svc.cluster.local; do echo waiting for mysql; sleep 2; done;']
+          command: ['sh', '-c', 'until nslookup mysql.sbc2nd.svc.cluster.local; do echo waiting for mysql; sleep 2; done;']
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: hello-docker-order
+  namespace: sbc2nd
   labels:
     app: hello-docker-order
 spec:

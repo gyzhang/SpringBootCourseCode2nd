@@ -1,13 +1,14 @@
-kubectl delete -n default deployment hello-docker-express
-kubectl delete -n default deployment hello-docker-console
-kubectl delete -n default deployment hello-docker-order
-kubectl delete -n default deployment mysql
-kubectl delete -n default deployment redis
-kubectl delete -n default deployment rabbitmq
-kubectl delete -n default service hello-docker-express
-kubectl delete -n default service hello-docker-console
-kubectl delete -n default service hello-docker-order
-kubectl delete -n default service mysql
-kubectl delete -n default service redis
-kubectl delete -n default service rabbitmq
-kubectl delete -n default configmap mysql-init-sql
+kubectl delete -n sbc2nd deployment hello-docker-express
+kubectl delete -n sbc2nd deployment hello-docker-console
+kubectl delete -n sbc2nd deployment hello-docker-order
+kubectl delete -n sbc2nd deployment mysql
+kubectl delete -n sbc2nd deployment redis
+kubectl delete -n sbc2nd deployment rabbitmq
+kubectl delete -n sbc2nd service hello-docker-express
+kubectl delete -n sbc2nd service hello-docker-console
+kubectl delete -n sbc2nd service hello-docker-order
+kubectl delete -n sbc2nd service mysql
+kubectl delete -n sbc2nd service redis
+kubectl delete -n sbc2nd service rabbitmq
+kubectl delete -n sbc2nd configmap mysql-init-sql
+kubectl delete namespace sbc2nd

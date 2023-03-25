@@ -2,6 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: mysql-init-sql
+  namespace: sbc2nd
   labels:
     app: mysql
 data:
@@ -69,6 +70,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mysql
+  namespace: sbc2nd
   labels:
     app: mysql
 spec:
@@ -87,8 +89,8 @@ spec:
           - name: ndots
             value: "2"
         searches:
-          - mysql.default.svc.cluster.local
-          - default.svc.cluster.local
+          - mysql.sbc2nd.svc.cluster.local
+          - sbc2nd.svc.cluster.local
       containers:
         - name: mysql
           image: mysql
@@ -138,6 +140,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: mysql
+  namespace: sbc2nd
   labels:
     app: mysql
 spec:

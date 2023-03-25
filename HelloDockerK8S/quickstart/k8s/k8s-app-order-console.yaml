@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: hello-docker-console
+  namespace: sbc2nd
   labels:
     app: hello-docker-console
 spec:
@@ -20,8 +21,8 @@ spec:
           - name: ndots
             value: "2"
         searches:
-          - hello-docker-console.default.svc.cluster.local
-          - default.svc.cluster.local
+          - hello-docker-console.sbc2nd.svc.cluster.local
+          - sbc2nd.svc.cluster.local
       containers:
         - name: hello-docker-console
           image: xprogrammer/hello-docker-console
@@ -44,12 +45,13 @@ spec:
       initContainers:
         - name: wait-for-hello-docker-order
           image: busybox
-          command: ['sh', '-c', 'until nslookup hello-docker-order.default.svc.cluster.local; do echo waiting for hello-docker-order; sleep 2; done;']
+          command: ['sh', '-c', 'until nslookup hello-docker-order.sbc2nd.svc.cluster.local; do echo waiting for hello-docker-order; sleep 2; done;']
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: hello-docker-console
+  namespace: sbc2nd
   labels:
     app: hello-docker-console
 spec:

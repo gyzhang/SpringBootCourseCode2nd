@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: hello-docker-express
+  namespace: sbc2nd
   labels:
     app: hello-docker-express
 spec:
@@ -20,8 +21,8 @@ spec:
           - name: ndots
             value: "2"
         searches:
-          - hello-docker-express.default.svc.cluster.local
-          - default.svc.cluster.local
+          - hello-docker-express.sbc2nd.svc.cluster.local
+          - sbc2nd.svc.cluster.local
       containers:
         - name: hello-docker-express
           image: xprogrammer/hello-docker-express
@@ -39,12 +40,13 @@ spec:
       initContainers:
         - name: wait-for-rabbitmq
           image: busybox
-          command: ['sh', '-c', 'until nslookup rabbitmq.default.svc.cluster.local; do echo waiting for rabbitmq; sleep 2; done;']
+          command: ['sh', '-c', 'until nslookup rabbitmq.sbc2nd.svc.cluster.local; do echo waiting for rabbitmq; sleep 2; done;']
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: hello-docker-express
+  namespace: sbc2nd
   labels:
     app: hello-docker-express
 spec:
