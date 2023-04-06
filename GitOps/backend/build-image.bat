@@ -1,0 +1,1 @@
+docker build -t xprogrammer/gitops-backend:v1.0.0 .

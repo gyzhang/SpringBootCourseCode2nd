@@ -1,0 +1,1 @@
+docker build -t xprogrammer/gitops-frontend:v1.0.0 .
