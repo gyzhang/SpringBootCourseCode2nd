@@ -93,7 +93,7 @@ spec:
           - sbc2nd.svc.cluster.local
       containers:
         - name: mysql
-          image: mysql
+          image: mysql:8.0.33-oracle
           env:
             - name: MYSQL_ROOT_PASSWORD
               value: "123456"
