@@ -15,7 +15,7 @@ export default defineConfig({
     headers: {
       'Access-Control-Allow-Origin': '*',
     },
-    port: 30080,
+    port: 80,
     host: 'localhost',
     open: true,
     proxy: {
