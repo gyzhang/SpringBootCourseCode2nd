@@ -1,7 +1,7 @@
-version: "3"
+version: "3.9"
 services:
   rabbitmq:
-    image: rabbitmq
+    image: rabbitmq:3.11.15-alpine
     container_name: test-rabbitmq
     hostname: my-rabbit
     environment:
@@ -9,13 +9,13 @@ services:
       - RABBITMQ_DEFAULT_PASS=guest
 
   redis:
-    image: redis
+    image: redis:7.0.11-alpine3.18
     container_name: test-redis
     volumes:
       - "./docker/redis-data:/data"
 
   mysql:
-    image: mysql
+    image: mysql:8.0.33-oracle
     container_name: test-mysql
     environment:
       - MYSQL_ROOT_PASSWORD=123456
@@ -41,7 +41,7 @@ services:
     image: xprogrammer/hello-docker-console
     container_name: test-console
     ports:
-      - "30080:30080"
+      - "80:80"
     depends_on:
       hello-docker-order:
         condition: service_started

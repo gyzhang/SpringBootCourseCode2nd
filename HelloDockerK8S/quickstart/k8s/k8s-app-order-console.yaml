@@ -8,7 +8,7 @@ metadata:
 data:
   nginx.conf: |
     server {
-        listen       30080;
+        listen       80;
         server_name  localhost;
         location / {
             root   html;
@@ -54,16 +54,17 @@ spec:
         - name: hello-docker-console
           image: xprogrammer/hello-docker-console
           ports:
-            - containerPort: 30080
+            - protocol: TCP
+              containerPort: 80
           readinessProbe:
             tcpSocket:
-              port: 30080
+              port: 80
             initialDelaySeconds: 10
             periodSeconds: 10
           livenessProbe:
             httpGet:
               path: /
-              port: 30080
+              port: 80
             initialDelaySeconds: 30
             periodSeconds: 30
           env:
@@ -82,7 +83,7 @@ spec:
                 path: nginx.conf
       initContainers:
         - name: wait-for-hello-docker-order
-          image: busybox
+          image: busybox:1.36.0-uclibc
           command: ['sh', '-c', 'until nslookup hello-docker-order.sbc2nd.svc.cluster.local; do echo waiting for hello-docker-order; sleep 2; done;']
 ---
 apiVersion: v1
@@ -97,7 +98,6 @@ spec:
     app: hello-docker-console
   ports:
     - protocol: TCP
-      port: 30080
-      targetPort: 30080
-      nodePort: 30080
-  type: NodePort
+      port: 80
+      targetPort: 80
+  type: ClusterIP
