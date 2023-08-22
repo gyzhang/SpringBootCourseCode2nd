@@ -21,14 +21,14 @@ public class Gitbook2SingleFile {
     public static void main(String[] args) throws IOException {
         int mdFileCount = 0;
         int imgFileCount = 0;
-        String gitbookPath = "C:\\Users\\Kevin Zhang\\MyBooks\\SpringBootCourse2nd";
-        String summaryName = "SUMMARY.md";
+        String gitbookPath = "C:\\Users\\Kevin Zhang\\MyGithub\\poc-howto\\信贷2.0部署手册\\POC部署练习用手册";
+        String summaryName = "SUMMARY.md"; //这个文件中必须以/来标记章节md文件，如./abc.md（和summary.md同级目录）或abc/xyz.md（summary.md夏季abc目录）
         String summaryFileName = gitbookPath + System.getProperty("file.separator") + summaryName;
 
-        String gitbookSigleFilePath = "D:\\temp\\mdtest";
+        String gitbookSigleFilePath = "D:\\temp\\mdbook";
         String imagesBasePath = gitbookSigleFilePath + System.getProperty("file.separator") + "images";
         String gitbookSigleFile =
-            gitbookSigleFilePath + System.getProperty("file.separator") + "SpringBoot从入门到实战：第2版.md";
+            gitbookSigleFilePath + System.getProperty("file.separator") + "NCPm2.0-ExamBook.md";
         File gitbookDir = new File(imagesBasePath);
         gitbookDir.mkdirs();
 
