@@ -12,23 +12,29 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 将一整本gitbook书输出到一个单一的文件
- * 约定书中使用的图片，统一都是在“./images”目录下
- * 也就是说存放生成单一xxx.md文件的目录中有一个子目录“./images”，其下存放了这本gitbook的所有图片文件
+ * 将一整本gitbook书输出到一个单一的文件 约定书中使用的图片，统一都是在“./images”目录下 也就是说存放生成单一xxx.md文件的目录中有一个子目录“./images”，其下存放了这本gitbook的所有图片文件
  */
 public class Gitbook2SingleFile {
 
+    public static final String FILE_SEPATATOR = System.getProperty("file.separator");
+
     public static void main(String[] args) throws IOException {
+        String gitbookPath = "C:\\Users\\Kevin Zhang\\MyGithub\\poc-howto\\信贷2.0部署手册\\POC部署练习用手册";
+        String gitbookSigleFilePath = "D:\\temp\\mdbook";
+        String singleFileName = "综合信贷2.0产品可控POC部署手册.md";
+        //如果传入的参数大于等于2个，则取第1个为gitbook的目录，第2个为合并的单一markdown文件的目录
+        if (args.length >= 3) {
+            gitbookPath = args[0];
+            gitbookSigleFilePath = args[1];
+            singleFileName = args[2];
+        }
+
         int mdFileCount = 0;
         int imgFileCount = 0;
-        String gitbookPath = "C:\\Users\\Kevin Zhang\\MyGithub\\poc-howto\\信贷2.0部署手册\\POC部署练习用手册";
         String summaryName = "SUMMARY.md"; //这个文件中必须以/来标记章节md文件，如./abc.md（和summary.md同级目录）或abc/xyz.md（summary.md夏季abc目录）
-        String summaryFileName = gitbookPath + System.getProperty("file.separator") + summaryName;
-
-        String gitbookSigleFilePath = "D:\\temp\\mdbook";
-        String imagesBasePath = gitbookSigleFilePath + System.getProperty("file.separator") + "images";
-        String gitbookSigleFile =
-            gitbookSigleFilePath + System.getProperty("file.separator") + "NCPm2.0-ExamBook.md";
+        String summaryFileName = gitbookPath + FILE_SEPATATOR + summaryName;
+        String imagesBasePath = gitbookSigleFilePath + FILE_SEPATATOR + "images";
+        String gitbookSigleFile = gitbookSigleFilePath + FILE_SEPATATOR + singleFileName;
         File gitbookDir = new File(imagesBasePath);
         gitbookDir.mkdirs();
 
@@ -36,7 +42,7 @@ public class Gitbook2SingleFile {
 
         List<GitbookSummaryBean> list = GitbookSummaryUtil.readLines(new File(summaryFileName));
         for (GitbookSummaryBean bean : list) {
-            String mdFileAbsolutePath = gitbookPath + System.getProperty("file.separator") + bean.getMarkdownFile();
+            String mdFileAbsolutePath = gitbookPath + FILE_SEPATATOR + bean.getMarkdownFile();
             mdFileCount++;
 
             List<String> lines = MarkdownFileUtil.readLines(new File(mdFileAbsolutePath));//获取MD文件的内容
@@ -45,9 +51,8 @@ public class Gitbook2SingleFile {
             //拷贝gitbook中的图片
             for (MarkdownImageBean img : imgs.values()) {
                 String imgFileFrom =
-                    mdFileAbsolutePath.substring(0, mdFileAbsolutePath.indexOf('/')) + System.getProperty("file.separator")
-                        + img.getUrl();
-                String imgFileTo = gitbookSigleFilePath + System.getProperty("file.separator") + img.getUrl();
+                    mdFileAbsolutePath.substring(0, mdFileAbsolutePath.indexOf('/')) + FILE_SEPATATOR + img.getUrl();
+                String imgFileTo = gitbookSigleFilePath + FILE_SEPATATOR + img.getUrl();
                 Files.copy(new File(imgFileFrom).toPath(), new File(imgFileTo).toPath(),
                     StandardCopyOption.REPLACE_EXISTING);
                 imgFileCount++;
@@ -60,6 +65,8 @@ public class Gitbook2SingleFile {
         }
 
         gitbook.close();
+        System.out.println(
+            "===================================================================================================");
         System.out.println(
             "GitBook[MD文件" + mdFileCount + "个，图片" + imgFileCount + "个]转换单一文件已完成：" + gitbookSigleFile);
     }

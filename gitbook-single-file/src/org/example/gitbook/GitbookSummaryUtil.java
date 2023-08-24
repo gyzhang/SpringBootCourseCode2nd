@@ -30,6 +30,7 @@ public class GitbookSummaryUtil {
 				}
 				GitbookSummaryBean bean = new GitbookSummaryBean();
 				bean.setContent(line);
+				System.out.println(line);
 				bean.setTitle(line.substring(line.indexOf("* [") + 3, line.indexOf("](")));
 				bean.setMarkdownFile(line.substring(line.indexOf("](") + 2, line.lastIndexOf(")")));
 				// 解析line到bean：“8个空格* [1.2.1 在路上](第01章 万事开头难/1.2.1onTheWay.md)”
@@ -62,6 +63,7 @@ public class GitbookSummaryUtil {
 				summary.add(bean);
 				preLineLevel = curLineLevel;// 下一行的前一行就是当前行
 			}
+			System.out.println("===================================================================================================");
 			return summary;
 		}
 	}
